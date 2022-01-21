@@ -1,6 +1,11 @@
 import { Exercise, Track, Workout } from "../../../modules/workout/types";
 
-export const generateRandomNumber = () => Math.ceil(Math.random() * 100);
+export const generateRandomNumber = () => Math.ceil(Math.random() * 1000);
+export const generateRandomExerciseTime = () =>
+  Math.round(Math.random() * 10) * 10;
+export const generateRandomExercisesNumber = () =>
+  Math.round(Math.random() * 10);
+export const generateRandomRepetitions = () => Math.round(Math.random() * 10);
 export const getRandomElementFromArray = (array: any[]): any =>
   array[Math.floor(Math.random() * array.length)];
 
@@ -12,8 +17,8 @@ export const createExercise = (): Exercise => {
   const exercise = {
     id,
     name: `Exercise ${id}`,
-    time: generateRandomNumber(),
-    ...(useRepetitions ? { repetitions: generateRandomNumber() } : {}),
+    time: generateRandomExerciseTime(),
+    ...(useRepetitions ? { repetitions: generateRandomRepetitions() } : {}),
   };
 
   console.log({ exercise });
