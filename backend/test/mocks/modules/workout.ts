@@ -31,12 +31,20 @@ export const createMockTracks = (tracksToCreate: number): Track[] => {
 
   while (tracks.length < tracksToCreate) {
     const id = `${generateRandomNumber()}`;
+    const useBreak = getRandomElementFromArray(TRUE_FALSE);
 
-    tracks.push({
-      id,
-      name: `Workout ${id}`,
-      exercises: [createExercise()],
-    });
+    if (useBreak) {
+      tracks.push({
+        id,
+        time: generateRandomExerciseTime(),
+      });
+    } else {
+      tracks.push({
+        id,
+        name: `Workout ${id}`,
+        exercises: [createExercise()],
+      });
+    }
   }
 
   return tracks;
