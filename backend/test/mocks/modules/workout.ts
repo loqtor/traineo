@@ -1,4 +1,4 @@
-import { Exercise, Track, Workout } from "../../../modules/workout/types";
+import { IExercise, Track, IWorkout } from "../../../modules/workout/types";
 
 export const generateRandomNumber = () => Math.ceil(Math.random() * 1000);
 export const generateRandomExerciseTime = () =>
@@ -11,7 +11,7 @@ export const getRandomElementFromArray = (array: any[]): any =>
 
 export const TRUE_FALSE = [true, false];
 
-export const createExercise = (): Exercise => {
+export const createExercise = (): IExercise => {
   const id = `${generateRandomNumber()}`;
   const useRepetitions = getRandomElementFromArray(TRUE_FALSE);
   const exercise = {
@@ -50,7 +50,7 @@ export const createMockTracks = (tracksToCreate: number): Track[] => {
   return tracks;
 };
 
-export const createMockWorkout = (): Workout => {
+export const createMockWorkout = (): IWorkout => {
   const id = `${generateRandomNumber()}`;
 
   return {

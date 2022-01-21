@@ -1,25 +1,25 @@
-export interface Exercise {
+export interface IExercise {
   id: string;
   name: string;
   time: number;
   repetitions?: number;
 }
 
-export interface Break {
+export interface IBreak {
   id: string;
   time: number;
 }
 
-export interface Circuit {
+export interface ICircuit {
   id: string;
   name: string;
-  exercises: Exercise[] | Break[];
+  exercises: IExercise[] | IBreak[];
   rounds?: number;
 }
 
-export type Track = Circuit | Exercise | Break;
+export type Track = ICircuit | IExercise | IBreak;
 
-export interface Workout {
+export interface IWorkout {
   id: string;
   name: string;
   tracks: Track[];
