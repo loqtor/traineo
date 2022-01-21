@@ -10,7 +10,8 @@
     "test:watch": "ts-mocha ./test/**/*.test.** --watch",
     "prebuild": "rm -rf ./dist; mkdirp ./dist || true",
     "copy-dependencies": "cpx \"./node_modules/**/*\" ./dist/node_modules",
-    "build": "yarn prebuild && yarn copy-dependencies && tsc"
+    "build": "yarn prebuild && yarn copy-dependencies && tsc",
+    "init-mocks": "ts-node ./test/mocks/init-mocks.ts"
   },
   "author": "Martin Martinez",
   "license": "ISC",
