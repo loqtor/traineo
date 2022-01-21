@@ -1,0 +1,11 @@
+{
+  "name": "moh-c19-rat-catcher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitlab.com:alphero/moh-c19-rat-catcher.git",
+  "author": "John Welfare <john@alphero.com>",
+  "license": "MIT",
+  "dependencies": {
+    "husky": "^7.0.4"
+  }
+}
