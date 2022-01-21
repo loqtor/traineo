@@ -14,7 +14,7 @@ const App = () => {
 
   return (
     <main>
-      <h1>React Node - Real-time app starter</h1>
+      <h1>Traineo</h1>
       <p>{socketConnection?.connected ? 'Socket connected' : 'Connecting...'}</p>
     </main>
   );

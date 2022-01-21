@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import App from './App';
+import App from './app';
 import reportWebVitals from './reportWebVitals';
 
 const queryClient = new QueryClient();
