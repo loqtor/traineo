@@ -1,9 +1,9 @@
 {
-  "name": "moh-c19-rat-catcher",
+  "name": "react-websocket-starter",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@gitlab.com:alphero/moh-c19-rat-catcher.git",
-  "author": "John Welfare <john@alphero.com>",
+  "repository": "git@github.com:loqtor/react-websocket-starter",
+  "author": "Martín Martínez <martin.martinez.sanchez@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "husky": "^7.0.4"
