@@ -18,14 +18,8 @@ export const getWorkouts = () => {
   return ALL_WORKOUTS;
 };
 
-export const getWorkout = (id: string) => {
-  console.log("searching for id: ", id);
-  return ALL_WORKOUTS.find((workout: IWorkout) => {
-    console.log("workout.id: ", workout.id);
-    console.log("matches: ", workout.id === id);
-    return workout.id === id;
-  });
-};
+export const getWorkout = (id: string) =>
+  ALL_WORKOUTS.find((workout: IWorkout) => workout.id === id);
 
 export const Workout = {
   getWorkouts,
