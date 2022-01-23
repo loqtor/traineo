@@ -1,21 +1,21 @@
-export interface IExercise {
+export type IExercise = {
   id: string;
   name: string;
   time: number;
   repetitions?: number;
-}
+};
 
-export interface IBreak {
+export type IBreak = {
   id: string;
   time: number;
-}
+};
 
-export interface ICircuit {
+export type ICircuit = {
   id: string;
   name: string;
   exercises: IExercise[] | IBreak[];
   rounds?: number;
-}
+};
 
 export type Track = ICircuit | IExercise | IBreak;
 

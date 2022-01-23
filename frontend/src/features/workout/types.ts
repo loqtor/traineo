@@ -1,23 +1,23 @@
-export interface IExercise {
+export type TExercise = {
   id: string;
   name: string;
   time: number;
   repetitions?: number;
-}
+};
 
-export interface IBreak {
+export type TRecovery = {
   id: string;
   time: number;
-}
+};
 
-export interface ICircuit {
+export type TCircuit = {
   id: string;
   name: string;
-  exercises: IExercise[] | IBreak[];
+  exercises: TExercise[] | TRecovery[];
   rounds?: number;
-}
+};
 
-export type Track = ICircuit | IExercise | IBreak;
+export type Track = TCircuit | TExercise | TRecovery;
 
 export interface IWorkout {
   id: string;

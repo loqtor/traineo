@@ -10,7 +10,7 @@ export const ViewWorkout = ({ workout }: IViewWorkoutProps) => {
     <div>
       <h2>{workout.name}</h2>
       {workout.tracks.map((track: Track) => (
-        <WorkoutTrack track={track} />
+        <WorkoutTrack key={track.id} track={track} />
       ))}
     </div>
   );

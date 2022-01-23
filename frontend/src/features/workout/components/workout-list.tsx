@@ -1,4 +1,5 @@
 import { IWorkout } from '../types';
+import { WorkoutItem } from './workout-item';
 
 interface IWorkoutListProps {
   workouts?: IWorkout[];
@@ -16,9 +17,7 @@ export const WorkoutList = ({ workouts, onWorkoutClick }: IWorkoutListProps) => 
       <ul>
         {workouts.map((workout: IWorkout) => (
           <li key={workout.id}>
-            <h3>{workout.name}</h3>
-            <span>{workout.tracks.length} tracks</span>
-            {onWorkoutClick && <button onClick={() => onWorkoutClick(workout)}>See details</button>}
+            <WorkoutItem workout={workout} onWorkoutClick={onWorkoutClick} />
           </li>
         ))}
       </ul>
