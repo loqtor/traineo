@@ -27,5 +27,6 @@ export const useTrackTimer = ({ time, onTimeFinish }: IUseTrackTimerProps) => {
 
   return {
     timeLeft,
+    setTimeLeft,
   };
 };

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useTrackTimer } from '../hooks/useWorkoutTrackTimer';
 import { IWorkout, TCircuit, TExercise, Track, TrackType, TRecovery } from '../types';
@@ -79,19 +80,46 @@ export interface IWorkoutCircuitTrackProps {
 }
 
 export const WorkoutCircuitTrack = ({ circuit, onTrackFinish }: IWorkoutCircuitTrackProps) => {
-  const { id, name, exercisesAndRecoveries, rounds } = circuit;
+  const { id, name, exercisesAndRecoveries, rounds = 1 } = circuit;
   const [currentRound, setCurrentRound] = useState<number>(1);
   const [activeExerciseIndex, setActiveExerciseIndex] = useState<number>(0);
   const [activeExercise, setActiveExercise] = useState<TExercise | TRecovery | undefined>(
     exercisesAndRecoveries[activeExerciseIndex],
   );
 
+  const onExerciseFinish = () => {
+    /**
+     * If there are exercises left in the current round
+     * just continue to the next one.
+     */
+    if (activeExerciseIndex < exercisesAndRecoveries.length - 1) {
+      const nextExerciseIndex = activeExerciseIndex + 1;
+      setActiveExerciseIndex(nextExerciseIndex);
+      setActiveExercise(exercisesAndRecoveries[nextExerciseIndex]);
+      return;
+    }
+
+    /**
+     * If there are still rounds to go in the circuit
+     * then increment the round and reset the exercise
+     * and exercise index.
+     */
+    if (currentRound < rounds) {
+      setCurrentRound(currentRound + 1);
+      setActiveExerciseIndex(0);
+      setActiveExercise(exercisesAndRecoveries[0]);
+      return;
+    }
+
+    onTrackFinish(circuit);
+  };
+
   let ActiveTrackRendered;
 
   if (activeExercise?.type === TrackType.EXERCISE) {
-    ActiveTrackRendered = <WorkoutExerciseTrack exercise={activeExercise} onTrackFinish={onTrackFinish} />;
+    ActiveTrackRendered = <WorkoutExerciseTrack exercise={activeExercise} onTrackFinish={onExerciseFinish} />;
   } else if (activeExercise?.type === TrackType.RECOVERY) {
-    ActiveTrackRendered = <WorkoutRecoveryTrack recovery={activeExercise} onTrackFinish={onTrackFinish} />;
+    ActiveTrackRendered = <WorkoutRecoveryTrack recovery={activeExercise} onTrackFinish={onExerciseFinish} />;
   } else {
     ActiveTrackRendered = <p>Track unrecognised</p>;
   }
@@ -102,7 +130,7 @@ export const WorkoutCircuitTrack = ({ circuit, onTrackFinish }: IWorkoutCircuitT
         Circuit: <strong>{name}</strong>
       </p>
       <p>
-        Round {currentRound} of {rounds || 1}
+        Round {currentRound} of {rounds}
       </p>
       <p>
         Exercise {activeExerciseIndex + 1} of {exercisesAndRecoveries.length}
@@ -118,10 +146,14 @@ export interface IWorkoutExerciseTrackProps {
 }
 
 export const WorkoutExerciseTrack = ({ exercise, onTrackFinish }: IWorkoutExerciseTrackProps) => {
-  const { timeLeft } = useTrackTimer({
+  const { timeLeft, setTimeLeft } = useTrackTimer({
     time: exercise.time,
     onTimeFinish: onTrackFinish,
   });
+
+  useEffect(() => {
+    setTimeLeft(exercise.time);
+  }, [exercise]);
 
   return (
     <div>
@@ -141,10 +173,14 @@ export interface IWorkoutRecovryTrackProps {
 }
 
 export const WorkoutRecoveryTrack = ({ recovery, onTrackFinish }: IWorkoutRecovryTrackProps) => {
-  const { timeLeft } = useTrackTimer({
+  const { timeLeft, setTimeLeft } = useTrackTimer({
     time: recovery.time,
     onTimeFinish: onTrackFinish,
   });
+
+  useEffect(() => {
+    setTimeLeft(recovery.time);
+  }, [recovery]);
 
   return (
     <div key={recovery.id}>
