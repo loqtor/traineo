@@ -12,6 +12,8 @@ export enum SocketEvents {
   DISCONNECT = 'DISCONNECT',
   LOG = 'LOG',
   ERROR = 'ERROR',
+
+  WORKOUT_START = 'WORKOUT_START',
 }
 
 export interface IWebSocketEvent {
@@ -42,7 +44,11 @@ export const useWebSockets = ({ events, query }: IUseWebSocketParams) => {
     return () => socketConnection.disconnect();
   }, [socketConnection]);
 
-  const init = () => {
+  const init = (reset?: boolean) => {
+    if (!reset && socketConnection) {
+      return;
+    }
+
     if (socketConnection) {
       socketConnection.disconnect();
     }

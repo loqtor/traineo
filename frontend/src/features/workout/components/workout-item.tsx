@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { SocketEvents, useWebSockets } from '../../../hooks/useWebSockets';
 import { IWorkout } from '../types';
 
 export interface IWorkoutItemProps {
@@ -5,10 +8,31 @@ export interface IWorkoutItemProps {
   onWorkoutClick?: (workout: IWorkout) => void;
 }
 
-export const WorkoutItem = ({ workout, onWorkoutClick }: IWorkoutItemProps) => (
-  <div>
-    <h3>{workout.name}</h3>
-    <span>{workout.tracks.length} tracks</span>
-    {onWorkoutClick && <button onClick={() => onWorkoutClick(workout)}>See details</button>}
-  </div>
-);
+export const WorkoutItem = ({ workout, onWorkoutClick }: IWorkoutItemProps) => {
+  const [showWorkoutAsActive, setShowWorkoutAsActive] = useState<boolean>(false);
+  const { init } = useWebSockets({
+    events: [
+      {
+        event: SocketEvents.WORKOUT_START,
+        callback: (startedWorkout: IWorkout) => {
+          if (startedWorkout.id === workout.id) {
+            setShowWorkoutAsActive(true);
+          }
+        },
+      },
+    ],
+  });
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return (
+    <div>
+      <h3>{workout.name}</h3>
+      <p>{workout.tracks.length} tracks</p>
+      {showWorkoutAsActive && <p>Someone is doing this workout right now!</p>}
+      {onWorkoutClick && <button onClick={() => onWorkoutClick(workout)}>See details</button>}
+    </div>
+  );
+};

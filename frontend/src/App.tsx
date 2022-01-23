@@ -30,7 +30,6 @@ const App = () => {
    */
   const goToWorkout = (workout: IWorkout) => {
     setWorkoutSelected(workout);
-    broadcastWorkoutStart(workout);
   };
 
   /**
@@ -40,6 +39,7 @@ const App = () => {
    */
   const startWorkout = (workout: IWorkout) => {
     setActiveWorkout(workout);
+    broadcastWorkoutStart(workout);
   };
 
   const goToDashboard = () => {
