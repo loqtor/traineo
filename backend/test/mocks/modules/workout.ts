@@ -1,4 +1,9 @@
-import { TExercise, Track, IWorkout } from "../../../modules/workout/types";
+import {
+  TExercise,
+  Track,
+  IWorkout,
+  TrackType,
+} from "../../../modules/workout/types";
 
 export const generateRandomNumber = () => Math.ceil(Math.random() * 1000);
 export const generateRandomExerciseTime = () =>
@@ -14,14 +19,13 @@ export const TRUE_FALSE = [true, false];
 export const createExercise = (): TExercise => {
   const id = `${generateRandomNumber()}`;
   const useRepetitions = getRandomElementFromArray(TRUE_FALSE);
-  const exercise = {
+  const exercise: TExercise = {
     id,
+    type: TrackType.EXERCISE,
     name: `Exercise ${id}`,
-    time: generateRandomExerciseTime(),
+    time: 10,
     ...(useRepetitions ? { repetitions: generateRandomRepetitions() } : {}),
   };
-
-  console.log({ exercise });
 
   return exercise;
 };
@@ -31,19 +35,24 @@ export const createMockTracks = (tracksToCreate: number): Track[] => {
 
   while (tracks.length < tracksToCreate) {
     const id = `${generateRandomNumber()}`;
+    const useCircuit = getRandomElementFromArray(TRUE_FALSE);
     const useBreak = getRandomElementFromArray(TRUE_FALSE);
 
-    if (useBreak) {
+    if (useCircuit) {
       tracks.push({
         id,
-        time: generateRandomExerciseTime(),
+        type: TrackType.CIRCUIT,
+        name: `Workout ${id}`,
+        exercisesAndRecoveries: [createExercise()],
+      });
+    } else if (useBreak) {
+      tracks.push({
+        id,
+        type: TrackType.RECOVERY,
+        time: 10,
       });
     } else {
-      tracks.push({
-        id,
-        name: `Workout ${id}`,
-        exercises: [createExercise()],
-      });
+      tracks.push(createExercise());
     }
   }
 

@@ -1,4 +1,4 @@
-import { TRecovery, TCircuit, TExercise, Track } from '../types';
+import { TRecovery, TCircuit, TExercise, Track, TrackType } from '../types';
 
 export interface IWorkoutTrackProps {
   track: Track;
@@ -8,7 +8,7 @@ export const WorkoutTrack = ({ track }: IWorkoutTrackProps) => {
   const trackAsCircuit = track as TCircuit;
   const trackAsExercise = track as TExercise;
 
-  if (trackAsCircuit.exercises?.length) {
+  if (trackAsCircuit.exercisesAndRecoveries?.length) {
     return <Circuit circuit={trackAsCircuit} />;
   }
 
@@ -26,13 +26,12 @@ export interface ICircuitProps {
 export const Circuit = ({ circuit }: ICircuitProps) => (
   <div key={circuit.id}>
     <h4> Circuit {circuit.name}</h4>
-    {circuit.exercises.map((exerciseOrRecovery: TExercise | TRecovery) => {
-      const exerciseOrRecoveryAsExercise = exerciseOrRecovery as TExercise;
-      if ((exerciseOrRecoveryAsExercise as TExercise).name) {
-        return <Exercise key={exerciseOrRecovery.id} exercise={exerciseOrRecoveryAsExercise} />;
+    {circuit.exercisesAndRecoveries.map((exerciseOrRecovery: TExercise | TRecovery) => {
+      if (exerciseOrRecovery.type === TrackType.EXERCISE) {
+        return <Exercise key={exerciseOrRecovery.id} exercise={exerciseOrRecovery} />;
       }
 
-      return <Recovery key={exerciseOrRecovery.id} recovery={exerciseOrRecovery as TRecovery} />;
+      return <Recovery key={exerciseOrRecovery.id} recovery={exerciseOrRecovery} />;
     })}
   </div>
 );

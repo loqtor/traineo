@@ -1,19 +1,30 @@
+export enum TrackType {
+  EXERCISE = "EXERCISE",
+  RECOVERY = "RECOVERY",
+  CIRCUIT = "CIRCUIT",
+}
+
+export type TRecovery = {
+  id: string;
+  type: TrackType.RECOVERY;
+  time: number;
+};
+
 export type TExercise = {
   id: string;
+  type: TrackType.EXERCISE;
   name: string;
   time: number;
   repetitions?: number;
 };
 
-export type TRecovery = {
-  id: string;
-  time: number;
-};
+export type TExerciseOrRecovery = TExercise | TRecovery;
 
 export type TCircuit = {
   id: string;
+  type: TrackType.CIRCUIT;
   name: string;
-  exercises: TExercise[] | TRecovery[];
+  exercisesAndRecoveries: TExerciseOrRecovery[];
   rounds?: number;
 };
 

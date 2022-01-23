@@ -4,11 +4,13 @@ import { WorkoutList } from './features/workout/components/workout-list';
 import { useWorkouts } from './features/workout/hooks/useWorkouts';
 import { IWorkout } from './features/workout/types';
 import { useWebSockets } from './hooks/useWebSockets';
+import { WorkoutPlay, WorkoutPlayStatus } from './features/workout/components/workout-play';
 
 const App = () => {
   const { init: initWebSockets, socketConnection } = useWebSockets({});
   const { workouts, isLoading: isLoadingWorkouts, isError: isErrorWorkouts } = useWorkouts();
   const [selectedWorkout, setWorkoutSelected] = useState<IWorkout>();
+  const [activeWorkout, setActiveWorkout] = useState<IWorkout>();
 
   useEffect(() => {
     const startSockets = async () => {
@@ -28,15 +30,34 @@ const App = () => {
     setWorkoutSelected(workout);
   };
 
+  /**
+   * Called when a workout that's being viewed is played.
+   * @NOTE: Same as the function above.
+   * @param workout Sets the workout as active and starts "playing" it
+   */
+  const startWorkout = (workout: IWorkout) => {
+    setActiveWorkout(workout);
+  };
+
   const goToDashboard = () => {
     setWorkoutSelected(undefined);
   };
+
+  if (activeWorkout) {
+    return (
+      <main>
+        <h1>Traineo</h1>
+        <WorkoutPlay workout={activeWorkout} initialStatus={WorkoutPlayStatus.IN_PROGRESS} />
+        <button onClick={goToDashboard}>Back to Dashboard</button>
+      </main>
+    );
+  }
 
   if (selectedWorkout) {
     return (
       <main>
         <h1>Traineo</h1>
-        <WorkoutView workout={selectedWorkout} />
+        <WorkoutView workout={selectedWorkout} workoutViewAction={startWorkout} />
         <button onClick={goToDashboard}>Back to Dashboard</button>
       </main>
     );
