@@ -23,13 +23,31 @@ export interface ICircuitProps {
   circuit: TCircuit;
 }
 
-export const Circuit = ({ circuit }: ICircuitProps) => <div key={circuit.id}>Circuit {circuit.name}</div>;
+export const Circuit = ({ circuit }: ICircuitProps) => (
+  <div key={circuit.id}>
+    <h4> Circuit {circuit.name}</h4>
+    {circuit.exercises.map((exerciseOrRecovery: TExercise | TRecovery) => {
+      const exerciseOrRecoveryAsExercise = exerciseOrRecovery as TExercise;
+      if ((exerciseOrRecoveryAsExercise as TExercise).name) {
+        return <Exercise key={exerciseOrRecovery.id} exercise={exerciseOrRecoveryAsExercise} />;
+      }
+
+      return <Recovery key={exerciseOrRecovery.id} recovery={exerciseOrRecovery as TRecovery} />;
+    })}
+  </div>
+);
 
 export interface IExerciseProps {
   exercise: TExercise;
 }
 
-export const Exercise = ({ exercise }: IExerciseProps) => <div key={exercise.id}>Exercise {exercise.name}</div>;
+export const Exercise = ({ exercise }: IExerciseProps) => (
+  <div key={exercise.id}>
+    <p>Exercise {exercise.name}</p>
+    <p>Duration: {exercise.time}</p>
+    {exercise.repetitions && <p>Repetitions: {exercise.repetitions}</p>}
+  </div>
+);
 
 export interface IRecoveryProps {
   recovery: TRecovery;
