@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ViewWorkout } from './features/workout/components/view-workout';
+import { WorkoutView } from './features/workout/components/workout-view';
 import { WorkoutList } from './features/workout/components/workout-list';
 import { useWorkouts } from './features/workout/hooks/useWorkouts';
 import { IWorkout } from './features/workout/types';
@@ -36,7 +36,7 @@ const App = () => {
     return (
       <main>
         <h1>Traineo</h1>
-        <ViewWorkout workout={selectedWorkout} />
+        <WorkoutView workout={selectedWorkout} />
         <button onClick={goToDashboard}>Back to Dashboard</button>
       </main>
     );
