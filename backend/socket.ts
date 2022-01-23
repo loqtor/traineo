@@ -35,18 +35,22 @@ export const initSockets = (
   socketIo.on("connection", (socket: Socket) => {
     let id = socket.handshake.query[ID_ATTRIBUTE] as string;
 
-    if (!id) {
-      id = "/"; // WebSockets default namespace
+    if (id) {
+      socket.join(id);
+
+      // This is emmited so the frontend starts listening
+      socketIo.to(id).emit("connection", {
+        success: true,
+      });
+
+      socketIo.to(id).emit(SocketEvents.LOG, "Socket open and ready to emit");
+    } else {
+      socketIo.emit("connection", {
+        success: true,
+      });
+
+      socketIo.emit(SocketEvents.LOG, "Socket open and ready to emit");
     }
-
-    socket.join(id);
-
-    // This is emmited so the frontend starts listening
-    socketIo.to(id).emit("connection", {
-      success: true,
-    });
-
-    socketIo.to(id).emit(SocketEvents.LOG, "Socket open and ready to emit");
   });
 
   return socketIo;

@@ -5,12 +5,14 @@ import { useWorkouts } from './features/workout/hooks/useWorkouts';
 import { IWorkout } from './features/workout/types';
 import { useWebSockets } from './hooks/useWebSockets';
 import { WorkoutPlay, WorkoutPlayStatus } from './features/workout/components/workout-play';
+import { useStartWorkout } from './features/workout/hooks/useStartWorkout';
 
 const App = () => {
   const { init: initWebSockets, socketConnection } = useWebSockets({});
   const { workouts, isLoading: isLoadingWorkouts, isError: isErrorWorkouts } = useWorkouts();
   const [selectedWorkout, setWorkoutSelected] = useState<IWorkout>();
   const [activeWorkout, setActiveWorkout] = useState<IWorkout>();
+  const { broadcastWorkoutStart } = useStartWorkout();
 
   useEffect(() => {
     const startSockets = async () => {
@@ -28,6 +30,7 @@ const App = () => {
    */
   const goToWorkout = (workout: IWorkout) => {
     setWorkoutSelected(workout);
+    broadcastWorkoutStart(workout);
   };
 
   /**

@@ -23,7 +23,7 @@ httpServer.listen(port, () =>
   });
 });
 
-const socket = initSockets(httpServer);
+export const socket = initSockets(httpServer);
 
 console.log("Socket server running. Events: ", socket.eventNames());
 
