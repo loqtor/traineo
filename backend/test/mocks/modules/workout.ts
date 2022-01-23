@@ -6,13 +6,12 @@ import {
 } from "../../../modules/workout/types";
 
 export const generateRandomNumber = () => Math.ceil(Math.random() * 1000);
-export const generateRandomExerciseTime = () =>
-  Math.round(Math.random() * 10) * 10;
-export const generateRandomExercisesNumber = () =>
-  Math.round(Math.random() * 10);
-export const generateRandomRepetitions = () => Math.round(Math.random() * 10);
 export const getRandomElementFromArray = (array: any[]): any =>
   array[Math.floor(Math.random() * array.length)];
+export const getRandomNumberInRange = (
+  upperLimit: number = 10,
+  lowerLimit: number = 1
+) => Math.floor(Math.random() * upperLimit) + lowerLimit;
 
 export const TRUE_FALSE = [true, false];
 
@@ -23,8 +22,8 @@ export const createExercise = (): TExercise => {
     id,
     type: TrackType.EXERCISE,
     name: `Exercise ${id}`,
-    time: 10,
-    ...(useRepetitions ? { repetitions: generateRandomRepetitions() } : {}),
+    time: getRandomNumberInRange(30),
+    ...(useRepetitions ? { repetitions: getRandomNumberInRange() } : {}),
   };
 
   return exercise;
@@ -39,17 +38,28 @@ export const createMockTracks = (tracksToCreate: number): Track[] => {
     const useBreak = getRandomElementFromArray(TRUE_FALSE);
 
     if (useCircuit) {
+      const exercisesNumber = getRandomNumberInRange(5, 2);
+      const rounds = getRandomNumberInRange(3, 2);
+      const exercisesAndRecoveries = [];
+
+      console.log({ exercisesNumber });
+
+      for (let i = 0; i < exercisesNumber; i++) {
+        exercisesAndRecoveries.push(createExercise());
+      }
+
       tracks.push({
         id,
         type: TrackType.CIRCUIT,
         name: `Workout ${id}`,
-        exercisesAndRecoveries: [createExercise()],
+        exercisesAndRecoveries: exercisesAndRecoveries,
+        rounds,
       });
     } else if (useBreak) {
       tracks.push({
         id,
         type: TrackType.RECOVERY,
-        time: 10,
+        time: getRandomNumberInRange(20),
       });
     } else {
       tracks.push(createExercise());
