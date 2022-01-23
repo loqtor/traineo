@@ -101,6 +101,12 @@ export const WorkoutCircuitTrack = ({ circuit, onTrackFinish }: IWorkoutCircuitT
       <p>
         Circuit: <strong>{name}</strong>
       </p>
+      <p>
+        Round {currentRound} of {rounds || 1}
+      </p>
+      <p>
+        Exercise {activeExerciseIndex + 1} of {exercisesAndRecoveries.length}
+      </p>
       {ActiveTrackRendered}
     </div>
   );
