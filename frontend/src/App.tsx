@@ -41,6 +41,7 @@ const App = () => {
 
   const goToDashboard = () => {
     setWorkoutSelected(undefined);
+    setActiveWorkout(undefined);
   };
 
   if (activeWorkout) {

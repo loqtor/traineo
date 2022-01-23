@@ -119,13 +119,13 @@ export const WorkoutExerciseTrack = ({ exercise, onTrackFinish }: IWorkoutExerci
 
   return (
     <div>
-      Exercise {exercise.name}
+      <p>Exercise {exercise.name}</p>
       {exercise.repetitions && (
         <p>
-          Try {exercise.repetitions} in {exercise.time}
+          Try {exercise.repetitions} in {exercise.time} seconds
         </p>
       )}
-      {timeLeft}
+      <p>{timeLeft} seconds left.</p>
     </div>
   );
 };
@@ -143,7 +143,7 @@ export const WorkoutRecoveryTrack = ({ recovery, onTrackFinish }: IWorkoutRecovr
   return (
     <div key={recovery.id}>
       Recovery {recovery.time}
-      {timeLeft}
+      <p>{timeLeft} seconds left.</p>
     </div>
   );
 };
