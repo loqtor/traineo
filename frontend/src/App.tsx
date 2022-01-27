@@ -5,14 +5,14 @@ import { useWorkouts } from './features/workout/hooks/useWorkouts';
 import { IWorkout } from './features/workout/types';
 import { useWebSockets } from './hooks/useWebSockets';
 import { WorkoutPlay, WorkoutPlayStatus } from './features/workout/components/workout-play';
-import { useStartWorkout } from './features/workout/hooks/useStartWorkout';
+import { useBroadcastWorkoutEvent, WorkoutSocketEvents } from './features/workout/hooks/useBroadcastWorkoutEvent';
 
 const App = () => {
   const { init: initWebSockets, socketConnection } = useWebSockets({});
   const { workouts, isLoading: isLoadingWorkouts, isError: isErrorWorkouts } = useWorkouts();
   const [selectedWorkout, setWorkoutSelected] = useState<IWorkout>();
   const [activeWorkout, setActiveWorkout] = useState<IWorkout>();
-  const { broadcastWorkoutStart } = useStartWorkout();
+  const { broadCastWorkoutEvent: broadcaseWorkoutStart } = useBroadcastWorkoutEvent(WorkoutSocketEvents.WORKOUT_START);
 
   useEffect(() => {
     const startSockets = async () => {
@@ -39,7 +39,7 @@ const App = () => {
    */
   const startWorkout = (workout: IWorkout) => {
     setActiveWorkout(workout);
-    broadcastWorkoutStart(workout);
+    broadcaseWorkoutStart(workout);
   };
 
   const goToDashboard = () => {

@@ -1,3 +1,4 @@
+import { WorkoutSocketEvents } from '@/features/workout/hooks/useBroadcastWorkoutEvent';
 import { useEffect, useState } from 'react';
 import { io, Socket, ManagerOptions, SocketOptions } from 'socket.io-client';
 
@@ -12,12 +13,10 @@ export enum SocketEvents {
   DISCONNECT = 'DISCONNECT',
   LOG = 'LOG',
   ERROR = 'ERROR',
-
-  WORKOUT_START = 'WORKOUT_START',
 }
 
 export interface IWebSocketEvent {
-  event: SocketEvents;
+  event: SocketEvents | WorkoutSocketEvents;
   callback: (data: any) => void;
 }
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { SocketEvents, useWebSockets } from '../../../hooks/useWebSockets';
+import { useWebSockets } from '../../../hooks/useWebSockets';
+import { WorkoutSocketEvents } from '../hooks/useBroadcastWorkoutEvent';
 import { IWorkout } from '../types';
 
 export interface IWorkoutItemProps {
@@ -13,7 +14,7 @@ export const WorkoutItem = ({ workout, onWorkoutClick }: IWorkoutItemProps) => {
   const { init } = useWebSockets({
     events: [
       {
-        event: SocketEvents.WORKOUT_START,
+        event: WorkoutSocketEvents.WORKOUT_START,
         callback: (startedWorkout: IWorkout) => {
           if (startedWorkout.id === workout.id) {
             setShowWorkoutAsActive(true);
